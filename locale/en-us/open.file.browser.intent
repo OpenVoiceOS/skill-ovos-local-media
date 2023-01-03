@@ -1,0 +1,6 @@
+(open | show ) (| my) file browser (| drive)
+(open | show | start) file browser
+(open | show | start) file browser app
+(open | show ) (| my) usb (| drive)
+(open | show | start) usb browser
+(open | show | start) usb browser app
