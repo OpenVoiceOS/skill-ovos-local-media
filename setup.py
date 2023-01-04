@@ -71,6 +71,7 @@ setup(
     ],
     include_package_data=True,
     install_requires=get_requirements("requirements.txt"),
+    extras_require={"notify": get_requirements("notify-requirements.txt")},
     keywords='ovos file browser skill plugin',
     entry_points={'ovos.plugin.skill': PLUGIN_ENTRY_POINT}
 )

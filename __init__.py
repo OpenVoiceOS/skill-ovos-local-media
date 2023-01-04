@@ -27,13 +27,37 @@ class FileBrowserSkill(MycroftSkill):
         self.audioExtensions = ["aac", "ac3", "aiff", "amr", "ape", "au", "flac", "alac" , "m4a", "m4b", "m4p", "mid", "mp2", "mp3", "mpc", "oga", "ogg", "opus", "ra", "wav", "wma"]
         self.videoExtensions = ["3g2", "3gp", "3gpp", "asf", "avi", "flv", "m2ts", "mkv", "mov", "mp4", "mpeg", "mpg", "mts", "ogm", "ogv", "qt", "rm", "vob", "webm", "wmv"]
         self.skill_location_path = os.path.dirname(os.path.realpath(__file__))
+        self.setup_udev_monitor()
+
+    def setup_udev_monitor(self):
+        try:
+            import pyudev
+            context = pyudev.Context()
+            monitor = pyudev.Monitor.from_netlink(context)
+            monitor.filter_by(subsystem='usb')
+            self.udev_thread = pyudev.MonitorObserver(monitor, self.handle_udev_event)
+            self.udev_thread.start()
+
+        except Exception as e:
+            pass
+
+    def handle_udev_event(self, action, device):
+        """
+        Handle a udev event
+        """
+        if action == 'add':
+            if device.device_node is not None:
+                self.gui.show_notification("New USB device detected - Open file browser to explore it", action="skill.file-browser.openvoiceos.home", noticetype="transient", style="info")
+
+        elif action == 'remove':
+            if device.device_node is not None:
+                self.gui.show_notification("A USB device was removed", noticetype="transient", style="info")
 
     @intent_file_handler("open.file.browser.intent")
     def show_home(self, message):
         """
         Show the file browser home page
         """
-
         self.gui.show_page("Browser.qml", override_idle=120)
 
     def handle_file(self, message):
@@ -91,7 +115,9 @@ class FileBrowserSkill(MycroftSkill):
         """
         Mycroft Stop Function
         """
-        pass
+        if self.udev_thread is not None:
+            self.udev_thread.stop()
+            self.udev_thread.join()
 
 def create_skill():
     """
