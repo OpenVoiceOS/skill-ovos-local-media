@@ -187,6 +187,24 @@ Item {
                     OVOSPlugin.PlacesModel.unmount(browserView.device.deviceIndex)
                 }
             }
+
+            Controls.RoundButton {
+                id: folderPlaylistButton
+                Layout.alignment: Qt.AlignRight
+                Layout.fillHeight: true
+                Layout.preferredWidth: Mycroft.Units.gridUnit * 5
+                Layout.margins: Kirigami.Units.smallSpacing
+                radius: 10              
+                icon.name: "source-playlist"
+                icon.color: Kirigami.Theme.textColor
+                enabled: testModelView.count > 0 ? 1 : 0
+                opacity: testModelView.count > 0 ? 1 : 0.5
+
+                onClicked: {
+                    Mycroft.SoundEffects.playClickedSound(Qt.resolvedUrl("sounds/clicked.wav"))
+                    triggerGuiEvent("skill.file-browser.openvoiceos.handle.folder.playlists", {"path": folderModel.folder.toString().replace("file://", "")})
+                }
+            }
         }
 
         Kirigami.Separator {
