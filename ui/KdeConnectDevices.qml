@@ -85,6 +85,7 @@ Rectangle {
             onClicked: {
                 Mycroft.SoundEffects.playClickedSound(Qt.resolvedUrl("sounds/clicked.wav"))
                 browserView.shareFile(deviceId)
+                rootKdeConnectDeviceSelector.close()
             }
         }
     }
