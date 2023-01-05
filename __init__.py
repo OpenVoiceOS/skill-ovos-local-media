@@ -34,11 +34,9 @@ class FileBrowserSkill(MycroftSkill):
     def setup_udev_monitor(self):
         try:
             import pyudev
-            # We want to monitor for USB devices being added or removed
             context = pyudev.Context()
             monitor = pyudev.Monitor.from_netlink(context)
             monitor.filter_by(subsystem='usb')
-            # Start monitoring in a separate thread
             self.udev_thread = pyudev.MonitorObserver(monitor, self.handle_udev_event)
             self.udev_thread.start()
     
@@ -69,7 +67,6 @@ class FileBrowserSkill(MycroftSkill):
         Handle a file from the file browser Video / Audio
         """
         fileUrl = message.data.get("fileURL", "")
-        # Determine if file is audio or video
         fileExtension = fileUrl.split(".")[-1]
         if fileExtension in self.audioExtensions:            
             media = {
@@ -112,9 +109,7 @@ class FileBrowserSkill(MycroftSkill):
         Handle a folder from the file browser as a playlist
         """
         folderUrl = message.data.get("path", "")
-        # Get all files in the folder
         files = os.listdir(folderUrl)
-        # Create a playlist
         playlist = []
         for file in files:
             fileUrl = "file://" + folderUrl + "/" + file
