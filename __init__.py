@@ -21,6 +21,11 @@ class FileBrowserSkill(MycroftSkill):
         super(FileBrowserSkill, self).__init__(name="FileBrowserSkill")
         self.skill_location_path = None
         self.udev_thread = None
+        self.audio_extensions = ["aac", "ac3", "aiff", "amr", "ape", "au", "flac", "alac", "m4a",
+                                 "m4b", "m4p", "mid", "mp2", "mp3", "mpc", "oga", "ogg", "opus", "ra", "wav", "wma"]
+        self.video_extensions = ["3g2", "3gp", "3gpp", "asf", "avi", "flv", "m2ts", "mkv", "mov",
+                                 "mp4", "mpeg", "mpg", "mts", "ogm", "ogv", "qt", "rm", "vob", "webm", "wmv"]
+        self.image_extensions = ["png", "jpg", "jpeg", "bmp", "gif", "svg"]
 
     def initialize(self):
         self.add_event('skill.file-browser.openvoiceos.home', self.show_home)
@@ -28,10 +33,6 @@ class FileBrowserSkill(MycroftSkill):
         self.gui.register_handler('skill.file-browser.openvoiceos.handle.folder.playlists', self.handle_folder_playlist)
         self.gui.register_handler('skill.file-browser.openvoiceos.send.file.kdeconnect',
                                   self.share_to_device_kdeconnect)
-        self.audio_extensions = ["aac", "ac3", "aiff", "amr", "ape", "au", "flac", "alac", "m4a",
-                                 "m4b", "m4p", "mid", "mp2", "mp3", "mpc", "oga", "ogg", "opus", "ra", "wav", "wma"]
-        self.video_extensions = ["3g2", "3gp", "3gpp", "asf", "avi", "flv", "m2ts", "mkv", "mov",
-                                 "mp4", "mpeg", "mpg", "mts", "ogm", "ogv", "qt", "rm", "vob", "webm", "wmv"]
         self.skill_location_path = os.path.dirname(os.path.realpath(__file__))
         self.setup_udev_monitor()
 
@@ -68,94 +69,82 @@ class FileBrowserSkill(MycroftSkill):
         """
         self.gui.show_page("Browser.qml", override_idle=120)
 
+    def _file2entry(self, file_url):
+        base, file_extension = os.path.splitext(file_url)
+        cover_images = [self.skill_location_path + "/ui/images/generic-audio-bg.jpg"]
+        if os.path.isfile(file_url):
+            name = base.split("/")[-1]
+            cover_images = [f"{base}/{name}.{ext}" for ext in self.image_extensions
+                            if os.path.isfile(f"{base}/{name}.{ext}")] or cover_images
+        if file_extension in self.audio_extensions:
+            media_type = MediaType.AUDIO
+            playback_type = PlaybackType.AUDIO
+        else:
+            media_type = MediaType.VIDEO
+            playback_type = PlaybackType.VIDEO
+
+        return {
+            "match_confidence": 100,
+            "media_type": media_type,
+            "length": 0,
+            "uri": file_url,
+            "playback": playback_type,
+            "image": cover_images[0],
+            "bg_image": cover_images[0],
+            "skill_icon": "",
+            "title": file_url.split("/")[-1],
+            "skill_id": "skill-file-browser.openvoiceos"
+        }
+
     def handle_file(self, message):
         """ 
         Handle a file from the file browser Video / Audio
         """
         file_url = message.data.get("fileURL", "")
-        file_extension = file_url.split(".")[-1]
-        if file_extension in self.audio_extensions:
-            media = {
-                "match_confidence": 100,
-                "media_type": MediaType.AUDIO,
-                "length": 0,
-                "uri": file_url,
-                "playback": PlaybackType.AUDIO,
-                "image": self.skill_location_path + "/ui/images/generic-audio-bg.jpg",
-                "bg_image": self.skill_location_path + "/ui/images/generic-audio-bg.jpg",
-                "skill_icon": "",
-                "title": file_url.split("/")[-1],
-                "skill_id": "skill-file-browser.openvoiceos"
-            }
-            playlist = [media]
-            disambiguation = [media]
-            self.bus.emit(Message("ovos.common_play.play",
-                                  {"media": media, "playlist": playlist, "disambiguation": disambiguation}))
-            self.gui.release()
+        media = self._file2entry(file_url)
+        playlist = [media]
+        disambiguation = [media]
+        self.bus.emit(Message("ovos.common_play.play",
+                              {"media": media, "playlist": playlist, "disambiguation": disambiguation}))
+        self.gui.release()
 
-        if file_extension in self.video_extensions:
-            media = {
+    def _folder2entry(self, folder_url):
+        playlist = []
+        for file in os.listdir(folder_url):
+            file_url = "file://" + folder_url + "/" + file
+            if os.path.isdir(file_url):
+                media = self._folder2entry(file_url)
+            else:
+                media = self._file2entry(file_url)
+            playlist.append(media)
+
+        if len(playlist) > 0:
+            media = playlist[0]
+            folder_title = folder_url.split("/")[-1].replace("_", " ").replace("-", " ").title()
+            return {
                 "match_confidence": 100,
-                "media_type": MediaType.VIDEO,
                 "length": 0,
-                "uri": file_url,
-                "playback": PlaybackType.VIDEO,
-                "image": self.skill_location_path + "/ui/images/generic-audio-bg.jpg",
-                "bg_image": self.skill_location_path + "/ui/images/generic-audio-bg.jpg",
+                "playlist": playlist,
+                "playback": media["playback"],
+                "image": media["image"],
+                "bg_image": media["bg_image"],
                 "skill_icon": "",
-                "title": file_url.split("/")[-1],
+                "title": folder_title,
                 "skill_id": "skill-file-browser.openvoiceos"
             }
-            playlist = [media]
-            disambiguation = [media]
-            self.bus.emit(Message("ovos.common_play.play",
-                                  {"media": media, "playlist": playlist, "disambiguation": disambiguation}))
-            self.gui.release()
 
     def handle_folder_playlist(self, message):
         """
         Handle a folder from the file browser as a playlist
         """
         folder_url = message.data.get("path", "")
-        files = os.listdir(folder_url)
-        playlist = []
-        for file in files:
-            file_url = "file://" + folder_url + "/" + file
-            file_extension = file_url.split(".")[-1]
-            if file_extension in self.audio_extensions:
-                media = {
-                    "match_confidence": 100,
-                    "media_type": MediaType.AUDIO,
-                    "length": 0,
-                    "uri": file_url,
-                    "playback": PlaybackType.AUDIO,
-                    "image": self.skill_location_path + "/ui/images/generic-audio-bg.jpg",
-                    "bg_image": self.skill_location_path + "/ui/images/generic-audio-bg.jpg",
-                    "skill_icon": "",
-                    "title": file_url.split("/")[-1],
-                    "skill_id": "skill-file-browser.openvoiceos"
-                }
-                playlist.append(media)
-            if file_extension in self.video_extensions:
-                media = {
-                    "match_confidence": 100,
-                    "media_type": MediaType.VIDEO,
-                    "length": 0,
-                    "uri": file_url,
-                    "playback": PlaybackType.VIDEO,
-                    "image": self.skill_location_path + "/ui/images/generic-audio-bg.jpg",
-                    "bg_image": self.skill_location_path + "/ui/images/generic-audio-bg.jpg",
-                    "skill_icon": "",
-                    "title": file_url.split("/")[-1],
-                    "skill_id": "skill-file-browser.openvoiceos"
-                }
-                playlist.append(media)
-
-        if len(playlist) > 0:
-            media = playlist[0]
-            disambiguation = playlist
+        playlist = self._folder2entry(folder_url)
+        if playlist:
+            disambiguation = [playlist]
+            media = playlist["playlist"][0]
             self.bus.emit(Message("ovos.common_play.play",
-                                  {"media": media, "playlist": playlist, "disambiguation": disambiguation}))
+                                  {"media": media, "playlist": playlist,
+                                   "disambiguation": disambiguation}))
             self.gui.release()
 
     def share_to_device_kdeconnect(self, message):
