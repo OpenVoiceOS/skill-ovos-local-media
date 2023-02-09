@@ -9,8 +9,8 @@ import subprocess
 from mycroft.skills.core import MycroftSkill, intent_file_handler
 from mycroft_bus_client.message import Message
 from ovos_plugin_common_play.ocp.status import *
-
-__author__ = 'aix'
+from ovos_utils.process_utils import RuntimeRequirements
+from ovos_utils import classproperty
 
 
 class FileBrowserSkill(MycroftSkill):
@@ -27,10 +27,25 @@ class FileBrowserSkill(MycroftSkill):
                                  "mp4", "mpeg", "mpg", "mts", "ogm", "ogv", "qt", "rm", "vob", "webm", "wmv"]
         self.image_extensions = ["png", "jpg", "jpeg", "bmp", "gif", "svg"]
 
+    @classproperty
+    def runtime_requirements(self):
+        # TODO - once OCP search is added remove gui requirement
+        return RuntimeRequirements(internet_before_load=False,
+                                   network_before_load=False,
+                                   gui_before_load=True,
+                                   requires_internet=False,
+                                   requires_network=False,
+                                   requires_gui=True,
+                                   no_internet_fallback=True,
+                                   no_network_fallback=True,
+                                   no_gui_fallback=False)
+
     def initialize(self):
         self.add_event('skill.file-browser.openvoiceos.home', self.show_home)
-        self.gui.register_handler('skill.file-browser.openvoiceos.handle.file', self.handle_file)
-        self.gui.register_handler('skill.file-browser.openvoiceos.handle.folder.playlists', self.handle_folder_playlist)
+        self.gui.register_handler('skill.file-browser.openvoiceos.handle.file',
+                                  self.handle_file)
+        self.gui.register_handler('skill.file-browser.openvoiceos.handle.folder.playlists',
+                                  self.handle_folder_playlist)
         self.gui.register_handler('skill.file-browser.openvoiceos.send.file.kdeconnect',
                                   self.share_to_device_kdeconnect)
         self.skill_location_path = os.path.dirname(os.path.realpath(__file__))
@@ -44,7 +59,6 @@ class FileBrowserSkill(MycroftSkill):
             monitor.filter_by(subsystem='usb')
             self.udev_thread = pyudev.MonitorObserver(monitor, self.handle_udev_event)
             self.udev_thread.start()
-
         except Exception as e:
             pass
 
@@ -60,7 +74,8 @@ class FileBrowserSkill(MycroftSkill):
 
         elif action == 'remove':
             if device.device_node is not None:
-                self.gui.show_notification("A USB device was removed", noticetype="transient", style="info")
+                self.gui.show_notification("A USB device was removed",
+                                           noticetype="transient", style="info")
 
     @intent_file_handler("open.file.browser.intent")
     def show_home(self, message):
@@ -105,7 +120,9 @@ class FileBrowserSkill(MycroftSkill):
         playlist = [media]
         disambiguation = [media]
         self.bus.emit(Message("ovos.common_play.play",
-                              {"media": media, "playlist": playlist, "disambiguation": disambiguation}))
+                              {"media": media,
+                               "playlist": playlist,
+                               "disambiguation": disambiguation}))
         self.gui.release()
 
     def _folder2entry(self, folder_url):
