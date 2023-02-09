@@ -9,8 +9,8 @@ import subprocess
 from mycroft.skills.core import MycroftSkill, intent_file_handler
 from mycroft_bus_client.message import Message
 from ovos_plugin_common_play.ocp.status import *
-
-__author__ = 'aix'
+from ovos_utils.process_utils import RuntimeRequirements
+from ovos_utils import classproperty
 
 
 class FileBrowserSkill(MycroftSkill):
@@ -21,6 +21,19 @@ class FileBrowserSkill(MycroftSkill):
         super(FileBrowserSkill, self).__init__(name="FileBrowserSkill")
         self.skill_location_path = None
         self.udev_thread = None
+
+    @classproperty
+    def runtime_requirements(self):
+        # TODO - once OCP search is added remove gui requirement
+        return RuntimeRequirements(internet_before_load=False,
+                                   network_before_load=False,
+                                   gui_before_load=True,
+                                   requires_internet=False,
+                                   requires_network=False,
+                                   requires_gui=True,
+                                   no_internet_fallback=True,
+                                   no_network_fallback=True,
+                                   no_gui_fallback=False)
 
     def initialize(self):
         self.add_event('skill.file-browser.openvoiceos.home', self.show_home)
@@ -69,7 +82,7 @@ class FileBrowserSkill(MycroftSkill):
         self.gui.show_page("Browser.qml", override_idle=120)
 
     def handle_file(self, message):
-        """ 
+        """
         Handle a file from the file browser Video / Audio
         """
         file_url = message.data.get("fileURL", "")
