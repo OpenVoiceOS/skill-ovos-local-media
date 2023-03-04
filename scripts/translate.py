@@ -24,7 +24,20 @@ for lang in target_langs:
     os.makedirs(join(res_folder, lang), exist_ok=True)
 
     for name, src in src_files.items():
-        dst = join(res_folder, lang, name)
+        if name.endswith(".dialog"):
+            os.makedirs(join(res_folder, lang, "dialog"), exist_ok=True)
+            dst = join(res_folder, lang, "dialog", name)
+        elif name.endswith(".voc"):
+            os.makedirs(join(res_folder, lang, "vocab"), exist_ok=True)
+            dst = join(res_folder, lang, "vocab", name)
+        elif name.endswith(".rx"):
+            os.makedirs(join(res_folder, lang, "regex"), exist_ok=True)
+            dst = join(res_folder, lang, "regex", name)
+        elif name.endswith(".intent"):
+            os.makedirs(join(res_folder, lang, "intents"), exist_ok=True)
+            dst = join(res_folder, lang, "intents", name)
+        else:
+            dst = join(res_folder, lang, name)
         if exists(dst):
             continue
 
@@ -38,11 +51,10 @@ for lang in target_langs:
                 try:
                     translated = tx.translate(l2, target=lang, source=src_lang)
                     tx_lines.append(translated)
-                except Exception as e:
-                    print(e)
+                except:
                     continue
-        if tx_lines:
-            with open(dst, "w") as f:
-                f.write(f"# auto translated from {src_lang} to {lang}\n")
-                for translated in set(tx_lines):
-                    f.write(translated + "\n")
+
+        with open(dst, "w") as f:
+            f.write(f"# auto translated from {src_lang} to {lang}\n")
+            for translated in set(tx_lines):
+                f.write(translated + "\n")

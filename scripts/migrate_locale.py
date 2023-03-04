@@ -6,6 +6,7 @@ base_folder = dirname(dirname(__file__))
 res_folder = join(base_folder, "locale")
 voc_folder = join(base_folder, "vocab")
 dialog_folder = join(base_folder, "dialog")
+regex_folder = join(base_folder, "regex")
 
 if exists(voc_folder):
     for lang in os.listdir(voc_folder):
@@ -24,3 +25,13 @@ if exists(dialog_folder):
             shutil.move(join(path, f), join(res_folder, lang, f))
         shutil.rmtree(path)
     shutil.rmtree(dialog_folder)
+
+
+if exists(regex_folder):
+    for lang in os.listdir(regex_folder):
+        path = join(regex_folder, lang)
+        os.makedirs(join(res_folder, lang), exist_ok=True)
+        for f in os.listdir(path):
+            shutil.move(join(path, f), join(res_folder, lang, f))
+        shutil.rmtree(path)
+    shutil.rmtree(regex_folder)
