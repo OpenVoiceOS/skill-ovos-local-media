@@ -1,0 +1,3 @@
+[ovos.plugin.skill]
+skill-ovos-filebrowser.openvoiceos=skill_ovos_filebrowser:FileBrowserSkill
+
