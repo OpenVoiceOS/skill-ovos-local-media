@@ -2,7 +2,16 @@
 
 ## [Unreleased](https://github.com/OpenVoiceOS/skill-ovos-filebrowser/tree/HEAD)
 
-[Full Changelog](https://github.com/OpenVoiceOS/skill-ovos-filebrowser/compare/V0.0.2a1...HEAD)
+[Full Changelog](https://github.com/OpenVoiceOS/skill-ovos-filebrowser/compare/V0.0.2a2...HEAD)
+
+**Merged pull requests:**
+
+- Add missing release\_skillstore.py [\#9](https://github.com/OpenVoiceOS/skill-ovos-filebrowser/pull/9) ([NeonDaniel](https://github.com/NeonDaniel))
+- Update build tests to shared workflow and include manifest tests [\#8](https://github.com/OpenVoiceOS/skill-ovos-filebrowser/pull/8) ([NeonDaniel](https://github.com/NeonDaniel))
+
+## [V0.0.2a2](https://github.com/OpenVoiceOS/skill-ovos-filebrowser/tree/V0.0.2a2) (2023-03-09)
+
+[Full Changelog](https://github.com/OpenVoiceOS/skill-ovos-filebrowser/compare/V0.0.2a1...V0.0.2a2)
 
 **Merged pull requests:**
 
