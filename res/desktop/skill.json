@@ -2,7 +2,7 @@
     "authorname": "OpenVoiceOS",
     "foldername": "skill-ovos-date-time",
     "url": "https://github.com/OpenVoiceOS/skill-ovos-date-time",
-    "branch": "v0.0.2",
+    "branch": "dev",
     "license": "apache-2.0",
     "tags": [
         "time",
