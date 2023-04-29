@@ -6,14 +6,16 @@
 import os
 import subprocess
 
-from mycroft.skills.core import MycroftSkill, intent_file_handler
-from mycroft_bus_client.message import Message
-from ovos_plugin_common_play.ocp.status import *
+
+from ovos_workshop.skills import OVOSSkill
+from ovos_workshop.decorators import intent_file_handler
+from ovos_workshop.skills.common_play import MediaType, PlaybackType
+from ovos_bus_client.message import Message
 from ovos_utils.process_utils import RuntimeRequirements
 from ovos_utils import classproperty
 
 
-class FileBrowserSkill(MycroftSkill):
+class FileBrowserSkill(OVOSSkill):
     def __init__(self):
         """
         FileBrowserSkill Skill Class.
