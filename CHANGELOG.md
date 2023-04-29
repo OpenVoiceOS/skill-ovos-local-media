@@ -2,7 +2,15 @@
 
 ## [Unreleased](https://github.com/OpenVoiceOS/skill-ovos-filebrowser/tree/HEAD)
 
-[Full Changelog](https://github.com/OpenVoiceOS/skill-ovos-filebrowser/compare/V0.0.2...HEAD)
+[Full Changelog](https://github.com/OpenVoiceOS/skill-ovos-filebrowser/compare/V0.0.3a1...HEAD)
+
+**Fixed bugs:**
+
+- fix/requirements [\#12](https://github.com/OpenVoiceOS/skill-ovos-filebrowser/pull/12) ([JarbasAl](https://github.com/JarbasAl))
+
+## [V0.0.3a1](https://github.com/OpenVoiceOS/skill-ovos-filebrowser/tree/V0.0.3a1) (2023-03-28)
+
+[Full Changelog](https://github.com/OpenVoiceOS/skill-ovos-filebrowser/compare/V0.0.2...V0.0.3a1)
 
 **Merged pull requests:**
 
