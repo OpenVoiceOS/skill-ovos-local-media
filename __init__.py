@@ -73,7 +73,7 @@ class LocalMediaSkill(OVOSSkill):
         self.gui.show_page("Browser.qml", override_idle=120)
 
     def _file2entry(self, file_url):
-        base, file_extension = os.path.splitext(file_url)
+        base, file_extension = file_url.split(".", 1)
         cover_images = [self.skill_location_path + "/ui/images/generic-audio-bg.jpg"]
         if os.path.isfile(file_url):
             name = base.split("/")[-1]
