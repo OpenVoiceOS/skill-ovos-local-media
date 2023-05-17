@@ -10,6 +10,11 @@ from ovos_workshop.skills.common_play import MediaType, PlaybackType
 
 
 class LocalMediaSkill(OVOSSkill):
+    audio_extensions = ["aac", "ac3", "aiff", "amr", "ape", "au", "flac", "alac", "m4a",
+                        "m4b", "m4p", "mid", "mp2", "mp3", "mpc", "oga", "ogg", "opus", "ra", "wav", "wma"]
+    video_extensions = ["3g2", "3gp", "3gpp", "asf", "avi", "flv", "m2ts", "mkv", "mov",
+                        "mp4", "mpeg", "mpg", "mts", "ogm", "ogv", "qt", "rm", "vob", "webm", "wmv"]
+    image_extensions = ["png", "jpg", "jpeg", "bmp", "gif", "svg"]
 
     @classproperty
     def runtime_requirements(self):
@@ -25,18 +30,12 @@ class LocalMediaSkill(OVOSSkill):
                                    no_gui_fallback=False)
 
     def initialize(self):
-        self.skill_location_path = None
         self.udev_thread = None
         self.add_event('skill.file-browser.openvoiceos.home', self.show_home)
         self.gui.register_handler('skill.file-browser.openvoiceos.handle.file', self.handle_file)
         self.gui.register_handler('skill.file-browser.openvoiceos.handle.folder.playlists', self.handle_folder_playlist)
         self.gui.register_handler('skill.file-browser.openvoiceos.send.file.kdeconnect',
                                   self.share_to_device_kdeconnect)
-        self.audio_extensions = ["aac", "ac3", "aiff", "amr", "ape", "au", "flac", "alac", "m4a",
-                                 "m4b", "m4p", "mid", "mp2", "mp3", "mpc", "oga", "ogg", "opus", "ra", "wav", "wma"]
-        self.video_extensions = ["3g2", "3gp", "3gpp", "asf", "avi", "flv", "m2ts", "mkv", "mov",
-                                 "mp4", "mpeg", "mpg", "mts", "ogm", "ogv", "qt", "rm", "vob", "webm", "wmv"]
-        self.skill_location_path = os.path.dirname(os.path.realpath(__file__))
         self.setup_udev_monitor()
 
     def setup_udev_monitor(self):
@@ -74,7 +73,7 @@ class LocalMediaSkill(OVOSSkill):
 
     def _file2entry(self, file_url):
         base, file_extension = file_url.split(".", 1)
-        cover_images = [self.skill_location_path + "/ui/images/generic-audio-bg.jpg"]
+        cover_images = [f"{os.path.dirname(__file__)}/ui/images/generic-audio-bg.jpg"]
         if os.path.isfile(file_url):
             name = base.split("/")[-1]
             cover_images = [f"{base}/{name}.{ext}" for ext in self.image_extensions
