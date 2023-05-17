@@ -1,28 +1,15 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-# Copyright (c) 2016 - 2022 by Aditya Mehra <Aix.m@outlook.com>
-# All rights reserved.
-
 import os
 import subprocess
 
-
-from ovos_workshop.skills import OVOSSkill
-from ovos_workshop.decorators import intent_file_handler
-from ovos_workshop.skills.common_play import MediaType, PlaybackType
 from ovos_bus_client.message import Message
-from ovos_utils.process_utils import RuntimeRequirements
 from ovos_utils import classproperty
+from ovos_utils.process_utils import RuntimeRequirements
+from ovos_workshop.decorators import intent_file_handler
+from ovos_workshop.skills import OVOSSkill
+from ovos_workshop.skills.common_play import MediaType, PlaybackType
 
 
-class FileBrowserSkill(OVOSSkill):
-    def __init__(self):
-        """
-        FileBrowserSkill Skill Class.
-        """
-        super(FileBrowserSkill, self).__init__(name="FileBrowserSkill")
-        self.skill_location_path = None
-        self.udev_thread = None
+class LocalMediaSkill(OVOSSkill):
 
     @classproperty
     def runtime_requirements(self):
@@ -38,6 +25,8 @@ class FileBrowserSkill(OVOSSkill):
                                    no_gui_fallback=False)
 
     def initialize(self):
+        self.skill_location_path = None
+        self.udev_thread = None
         self.add_event('skill.file-browser.openvoiceos.home', self.show_home)
         self.gui.register_handler('skill.file-browser.openvoiceos.handle.file', self.handle_file)
         self.gui.register_handler('skill.file-browser.openvoiceos.handle.folder.playlists', self.handle_folder_playlist)
@@ -188,10 +177,3 @@ class FileBrowserSkill(OVOSSkill):
         if self.udev_thread is not None:
             self.udev_thread.stop()
             self.udev_thread.join()
-
-
-def create_skill():
-    """
-    Mycroft Create Skill Function
-    """
-    return FileBrowserSkill()

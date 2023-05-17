@@ -3,9 +3,9 @@ from setuptools import setup
 import os
 from os import walk, path
 
-URL = "https://github.com/OpenVoiceOS/skill-ovos-filebrowser"
-SKILL_CLAZZ = "FileBrowserSkill"  # needs to match __init__.py class name
-PYPI_NAME = "ovos-skill-filebrowser"  # pip install PYPI_NAME
+URL = "https://github.com/OpenVoiceOS/skill-ovos-local-media"
+SKILL_CLAZZ = "LocalMediaSkill"  # needs to match __init__.py class name
+PYPI_NAME = "ovos-skill-local-media"  # pip install PYPI_NAME
 
 
 # below derived from github url to ensure standard skill_id
@@ -73,7 +73,7 @@ def get_version():
 setup(
     name=PYPI_NAME,
     version=get_version(),
-    description='OVOS file browser skill plugin',
+    description='OVOS file browser OCP skill plugin',
     long_description=long_description,
     url=URL,
     author='Aix',
@@ -83,7 +83,7 @@ setup(
     package_data={SKILL_PKG: find_resource_files()},
     packages=[SKILL_PKG],
     data_files = [
-        ('share/applications', ['res/desktop/skill-ovos-filebrowser.desktop']),
+        ('share/applications', ['res/desktop/skill-ovos-local-media.desktop']),
         ('share/icons', ['res/icon/ovos-file-browser.svg'])
     ],
     include_package_data=True,
