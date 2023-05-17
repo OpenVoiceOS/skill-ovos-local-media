@@ -1,48 +1,24 @@
 # Changelog
 
-## [Unreleased](https://github.com/OpenVoiceOS/skill-ovos-local-media/tree/HEAD)
+## [V0.0.3a2](https://github.com/OpenVoiceOS/skill-ovos-local-media/tree/V0.0.3a2) (2023-04-29)
 
-[Full Changelog](https://github.com/OpenVoiceOS/skill-ovos-local-media/compare/V0.0.3a1...HEAD)
-
-**Fixed bugs:**
-
-- fix/requirements [\#12](https://github.com/OpenVoiceOS/skill-ovos-local-media/pull/12) ([JarbasAl](https://github.com/JarbasAl))
+[Full Changelog](https://github.com/OpenVoiceOS/skill-ovos-local-media/compare/V0.0.3a1...V0.0.3a2)
 
 ## [V0.0.3a1](https://github.com/OpenVoiceOS/skill-ovos-local-media/tree/V0.0.3a1) (2023-03-28)
 
 [Full Changelog](https://github.com/OpenVoiceOS/skill-ovos-local-media/compare/V0.0.2...V0.0.3a1)
 
-**Merged pull requests:**
-
-- Fix issue \#10 [\#11](https://github.com/OpenVoiceOS/skill-ovos-local-media/pull/11) ([goldyfruit](https://github.com/goldyfruit))
-
 ## [V0.0.2](https://github.com/OpenVoiceOS/skill-ovos-local-media/tree/V0.0.2) (2023-03-13)
 
 [Full Changelog](https://github.com/OpenVoiceOS/skill-ovos-local-media/compare/V0.0.2a2...V0.0.2)
-
-**Merged pull requests:**
-
-- Add missing release\_skillstore.py [\#9](https://github.com/OpenVoiceOS/skill-ovos-local-media/pull/9) ([NeonDaniel](https://github.com/NeonDaniel))
-- Update build tests to shared workflow and include manifest tests [\#8](https://github.com/OpenVoiceOS/skill-ovos-local-media/pull/8) ([NeonDaniel](https://github.com/NeonDaniel))
 
 ## [V0.0.2a2](https://github.com/OpenVoiceOS/skill-ovos-local-media/tree/V0.0.2a2) (2023-03-09)
 
 [Full Changelog](https://github.com/OpenVoiceOS/skill-ovos-local-media/compare/V0.0.2a1...V0.0.2a2)
 
-**Merged pull requests:**
-
-- Update dependencies to stable versions [\#6](https://github.com/OpenVoiceOS/skill-ovos-local-media/pull/6) ([NeonDaniel](https://github.com/NeonDaniel))
-
 ## [V0.0.2a1](https://github.com/OpenVoiceOS/skill-ovos-local-media/tree/V0.0.2a1) (2023-03-04)
 
 [Full Changelog](https://github.com/OpenVoiceOS/skill-ovos-local-media/compare/9037603be992f7e99b0ff026d4b57f5a2d8e0e16...V0.0.2a1)
-
-**Merged pull requests:**
-
-- Add PyPI Automation and scripts [\#5](https://github.com/OpenVoiceOS/skill-ovos-local-media/pull/5) ([NeonDaniel](https://github.com/NeonDaniel))
-- Feat/runtime requirements [\#4](https://github.com/OpenVoiceOS/skill-ovos-local-media/pull/4) ([JarbasAl](https://github.com/JarbasAl))
-- add folder playlist [\#2](https://github.com/OpenVoiceOS/skill-ovos-local-media/pull/2) ([AIIX](https://github.com/AIIX))
-- add usb attach / detach notifications [\#1](https://github.com/OpenVoiceOS/skill-ovos-local-media/pull/1) ([AIIX](https://github.com/AIIX))
 
 
 
