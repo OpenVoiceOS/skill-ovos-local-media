@@ -8,7 +8,7 @@ from ovos_utils.bracket_expansion import expand_parentheses, expand_options
 
 
 branch = "dev"
-repo = "skill-ovos-date-time"
+repo = "skill-ovos-local-media"
 author = "OpenVoiceOS"
 
 url = f"https://github.com/{author}/{repo}@{branch}"
@@ -59,18 +59,12 @@ if has_homescreen and not exists(desktopf):
 
 if not exists(jsonf):
     data = skill.json
-    with open(jsonf, "w") as f:
-        if not has_android or not has_homescreen:
-            data.pop("android")
-        if not has_homescreen:
-            data.pop("desktop")
-            data["desktopFile"] = False
 else:
     with open(jsonf) as f:
         data = json.load(f)
 
 # set dev branch
 data["branch"] = "dev"
-
+data["desktopFile"] = True
 with open(jsonf, "w") as f:
     json.dump(data, f, indent=4)
