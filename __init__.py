@@ -4,7 +4,7 @@ import subprocess
 from ovos_bus_client.message import Message
 from ovos_utils import classproperty
 from ovos_utils.process_utils import RuntimeRequirements
-from ovos_workshop.decorators import intent_file_handler
+from ovos_workshop.decorators import intent_handler
 from ovos_workshop.skills import OVOSSkill
 from ovos_workshop.skills.common_play import MediaType, PlaybackType
 
@@ -46,7 +46,6 @@ class LocalMediaSkill(OVOSSkill):
             monitor.filter_by(subsystem='usb')
             self.udev_thread = pyudev.MonitorObserver(monitor, self.handle_udev_event)
             self.udev_thread.start()
-
         except Exception as e:
             pass
 
@@ -64,12 +63,12 @@ class LocalMediaSkill(OVOSSkill):
             if device.device_node is not None:
                 self.gui.show_notification("A USB device was removed", noticetype="transient", style="info")
 
-    @intent_file_handler("open.file.browser.intent")
+    @intent_handler("open.file.browser.intent")
     def show_home(self, message):
         """
         Show the file browser home page
         """
-        self.gui.show_page("Browser.qml", override_idle=120)
+        self.gui.show_page("Browser", override_idle=120)
 
     def _file2entry(self, file_url):
         base, file_extension = file_url.split(".", 1)
