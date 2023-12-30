@@ -1,12 +1,12 @@
 import os
 import subprocess
 
-from ovos_bus_client.message import Message
 from ovos_utils import classproperty
 from ovos_utils.process_utils import RuntimeRequirements
 from ovos_workshop.decorators import intent_handler
 from ovos_workshop.skills import OVOSSkill
 from ovos_workshop.skills.common_play import MediaType, PlaybackType
+from ovos_bus_client.apis.ocp import OCPInterface
 
 
 class LocalMediaSkill(OVOSSkill):
@@ -30,6 +30,7 @@ class LocalMediaSkill(OVOSSkill):
                                    no_gui_fallback=False)
 
     def initialize(self):
+        self.ocp = OCPInterface(self.bus)
         self.udev_thread = None
         self.add_event('skill.file-browser.openvoiceos.home', self.show_home)
         self.gui.register_handler('skill.file-browser.openvoiceos.handle.file', self.handle_file)
@@ -107,9 +108,7 @@ class LocalMediaSkill(OVOSSkill):
         file_url = message.data.get("fileURL", "")
         media = self._file2entry(file_url)
         playlist = [media]
-        disambiguation = [media]
-        self.bus.emit(Message("ovos.common_play.play",
-                              {"media": media, "playlist": playlist, "disambiguation": disambiguation}))
+        self.ocp.play(playlist)
         self.gui.release()
 
     def _folder2entry(self, folder_url):
@@ -144,11 +143,7 @@ class LocalMediaSkill(OVOSSkill):
         folder_url = message.data.get("path", "")
         playlist = self._folder2entry(folder_url)
         if playlist:
-            disambiguation = [playlist]
-            media = playlist["playlist"][0]
-            self.bus.emit(Message("ovos.common_play.play",
-                                  {"media": media, "playlist": playlist,
-                                   "disambiguation": disambiguation}))
+            self.ocp.play(playlist)
             self.gui.release()
 
     def share_to_device_kdeconnect(self, message):
@@ -159,10 +154,7 @@ class LocalMediaSkill(OVOSSkill):
         device_id = message.data.get("deviceID", "")
         subprocess.Popen(["kdeconnect-cli", "--share", file_url, "--device", device_id])
 
-    def stop(self):
-        """
-        Mycroft Stop Function
-        """
+    def shutdown(self):
         if self.udev_thread is not None:
             self.udev_thread.stop()
             self.udev_thread.join()
