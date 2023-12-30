@@ -1,3 +1,2 @@
-ovos-utils~=0.0, >=0.0.28
-ovos-bus-client
-ovos_workshop~=0.0, >=0.0.12a20
+ovos-utils~=0.0, >=0.0.38
+ovos_workshop~=0.0, >=0.0.15
