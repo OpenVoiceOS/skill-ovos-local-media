@@ -97,7 +97,7 @@ class LocalMediaSkill(OVOSSkill):
             "bg_image": cover_images[0],
             "skill_icon": "",
             "title": file_url.split("/")[-1],
-            "skill_id": "skill-file-browser.openvoiceos"
+            "skill_id": self.skill_id
         }
 
     def handle_file(self, message):
@@ -132,7 +132,7 @@ class LocalMediaSkill(OVOSSkill):
                 "bg_image": media["bg_image"],
                 "skill_icon": "",
                 "title": folder_title,
-                "skill_id": "skill-file-browser.openvoiceos"
+                "skill_id": self.skill_id
             }
 
     def handle_folder_playlist(self, message):
