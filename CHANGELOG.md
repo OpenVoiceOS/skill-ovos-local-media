@@ -1,8 +1,8 @@
 # Changelog
 
-## [Unreleased](https://github.com/OpenVoiceOS/skill-ovos-local-media/tree/HEAD)
+## [V0.0.3a7](https://github.com/OpenVoiceOS/skill-ovos-local-media/tree/V0.0.3a7) (2023-12-30)
 
-[Full Changelog](https://github.com/OpenVoiceOS/skill-ovos-local-media/compare/V0.0.3a6...HEAD)
+[Full Changelog](https://github.com/OpenVoiceOS/skill-ovos-local-media/compare/V0.0.3a6...V0.0.3a7)
 
 **Implemented enhancements:**
 
