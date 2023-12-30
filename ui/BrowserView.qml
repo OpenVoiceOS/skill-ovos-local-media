@@ -51,7 +51,7 @@ Item {
     }
 
     function shareFile(deviceID) {
-        triggerGuiEvent("skill.file-browser.openvoiceos.send.file.kdeconnect", {"file": imageViewer.source, "deviceID": deviceID})
+        triggerGuiEvent("file.kdeconnect.send", {"file": imageViewer.source, "deviceID": deviceID})
     }
 
     onDeviceChanged: {
@@ -202,7 +202,7 @@ Item {
 
                 onClicked: {
                     Mycroft.SoundEffects.playClickedSound(Qt.resolvedUrl("sounds/clicked.wav"))
-                    triggerGuiEvent("skill.file-browser.openvoiceos.handle.folder.playlists", {"path": folderModel.folder.toString().replace("file://", "")})
+                    triggerGuiEvent("folder.play", {"path": folderModel.folder.toString().replace("file://", "")})
                 }
             }
         }
@@ -268,7 +268,7 @@ Item {
                             imageViewer.source = fileUrl
                             imageViewer.open()
                         } else {
-                            triggerGuiEvent("skill.file-browser.openvoiceos.handle.file", {"fileURL": fileUrl})
+                            triggerGuiEvent("file.play", {"fileURL": fileUrl})
                         }
                     }
                 }

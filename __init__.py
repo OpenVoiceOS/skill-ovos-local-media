@@ -32,11 +32,10 @@ class LocalMediaSkill(OVOSSkill):
     def initialize(self):
         self.ocp = OCPInterface(self.bus)
         self.udev_thread = None
-        self.add_event('skill.file-browser.openvoiceos.home', self.show_home)
-        self.gui.register_handler('skill.file-browser.openvoiceos.handle.file', self.handle_file)
-        self.gui.register_handler('skill.file-browser.openvoiceos.handle.folder.playlists', self.handle_folder_playlist)
-        self.gui.register_handler('skill.file-browser.openvoiceos.send.file.kdeconnect',
-                                  self.share_to_device_kdeconnect)
+        self.add_event(f'{self.skill_id}.home', self.show_home)
+        self.gui.register_handler('file.play', self.handle_file)
+        self.gui.register_handler('folder.play', self.handle_folder_playlist)
+        self.gui.register_handler('file.kdeconnect.send', self.share_to_device_kdeconnect)
         self.setup_udev_monitor()
 
     def setup_udev_monitor(self):
@@ -57,7 +56,7 @@ class LocalMediaSkill(OVOSSkill):
         if action == 'add':
             if device.device_node is not None:
                 self.gui.show_notification("New USB device detected - Open file browser to explore it",
-                                           action="skill.file-browser.openvoiceos.home", noticetype="transient",
+                                           action=f'{self.skill_id}.home', noticetype="transient",
                                            style="info")
 
         elif action == 'remove':
