@@ -84,6 +84,9 @@ class LocalMediaSkill(OVOSSkill):
             media_type = MediaType.VIDEO
             playback_type = PlaybackType.VIDEO
 
+        if not file_url.startswith("file://"):
+            file_url = "file://" + file_url
+            
         return {
             "match_confidence": 100,
             "media_type": media_type,
@@ -112,7 +115,7 @@ class LocalMediaSkill(OVOSSkill):
     def _folder2entry(self, folder_url):
         playlist = []
         for file in os.listdir(folder_url):
-            file_url = "file://" + folder_url + "/" + file
+            file_url = f"{folder_url}/{file}"
             if os.path.isdir(file_url):
                 media = self._folder2entry(file_url)
             else:
