@@ -1,5 +1,9 @@
 # Changelog
 
+## [V0.0.3a10](https://github.com/OpenVoiceOS/skill-ovos-local-media/tree/V0.0.3a10) (2023-12-30)
+
+[Full Changelog](https://github.com/OpenVoiceOS/skill-ovos-local-media/compare/V0.0.3a9...V0.0.3a10)
+
 ## [V0.0.3a9](https://github.com/OpenVoiceOS/skill-ovos-local-media/tree/V0.0.3a9) (2023-12-30)
 
 [Full Changelog](https://github.com/OpenVoiceOS/skill-ovos-local-media/compare/V0.0.3a8...V0.0.3a9)
