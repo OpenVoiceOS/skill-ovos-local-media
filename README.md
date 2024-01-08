@@ -5,6 +5,25 @@
 ## About
 File Browser For Open Voice OS
 
+for voice search this skill builds a local index of scanned user media
+
+your collection needs to be organized in the following fashion to be detected by this skill
+
+     ~/OCPMedia/Music
+     ~/OCPMedia/Movies
+     ~/OCPMedia/Podcasts
+     ~/OCPMedia/...
+
+folders are mapped to MediaType, subfolders are loaded as playlists
+
+you can set the base folder (`~/OCPMedia` by default) in the skill `settings.json` 
+
+```json
+{
+  "media_path": "~/OCPMedia"
+}
+```
+
 ## Examples
 * "Open File Browser"
 * "Show File Browser"
