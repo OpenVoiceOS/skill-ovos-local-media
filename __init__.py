@@ -11,8 +11,8 @@ from ovos_utils.log import LOG
 from ovos_utils.process_utils import RuntimeRequirements
 from ovos_workshop.decorators import intent_handler
 from ovos_workshop.decorators.ocp import ocp_search
-from ovos_workshop.skills.common_play import MediaType, PlaybackType
 from ovos_workshop.skills.common_play import OVOSCommonPlaybackSkill
+from ovos_utils.ocp import MediaType, PlaybackType
 
 
 class LocalMediaSkill(OVOSCommonPlaybackSkill):
@@ -23,10 +23,16 @@ class LocalMediaSkill(OVOSCommonPlaybackSkill):
     image_extensions = ["png", "jpg", "jpeg", "bmp", "gif", "svg"]
 
     def __init__(self, *args, **kwargs):
-        self.supported_media = [MediaType.SHORT_FILM]
-        self.skill_icon = join(dirname(__file__), "res", "icon", "ovos-file-browser.svg")
         self.archive = JsonStorageXDG("LocalMedia", subfolder="OCP")
-        super().__init__(*args, **kwargs)
+        super().__init__(skill_icon = join(dirname(__file__), "res", "icon", "ovos-file-browser.svg"),
+                         supported_media=[MediaType.SHORT_FILM, MediaType.MUSIC,
+                                          MediaType.RADIO, MediaType.RADIO_THEATRE,
+                                          MediaType.MOVIE, MediaType.AUDIOBOOK,
+                                          MediaType.AUDIO_DESCRIPTION, MediaType.PODCAST,
+                                          MediaType.ANIME, MediaType.CARTOON, MediaType.DOCUMENTARY,
+                                          MediaType.VIDEO_EPISODES, MediaType.SILENT_MOVIE,
+                                          MediaType.BLACK_WHITE_MOVIE],
+                         *args, **kwargs)
         self.scan_local_media()
 
     @classproperty
@@ -70,7 +76,7 @@ class LocalMediaSkill(OVOSCommonPlaybackSkill):
             "Music": MediaType.MUSIC,
             "Movies": MediaType.MOVIE,
             "Audiobooks": MediaType.AUDIOBOOK,
-            "Podcasts": MediaType.PODCAST.PODCAST,
+            "Podcasts": MediaType.PODCAST,
             "RadioTheatre": MediaType.RADIO_THEATRE,
             "AudioDescriptions": MediaType.AUDIO_DESCRIPTION,
             "Anime": MediaType.ANIME,
