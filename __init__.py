@@ -31,7 +31,8 @@ class LocalMediaSkill(OVOSCommonPlaybackSkill):
                                           MediaType.AUDIO_DESCRIPTION, MediaType.PODCAST,
                                           MediaType.ANIME, MediaType.CARTOON, MediaType.DOCUMENTARY,
                                           MediaType.VIDEO_EPISODES, MediaType.SILENT_MOVIE,
-                                          MediaType.BLACK_WHITE_MOVIE],
+                                          MediaType.BLACK_WHITE_MOVIE,
+                                          MediaType.GENERIC],
                          *args, **kwargs)
         self.scan_local_media()
 
@@ -145,10 +146,13 @@ class LocalMediaSkill(OVOSCommonPlaybackSkill):
         entities = self.ocp_voc_match(phrase)
         base_score += 30 * len(entities)
 
-        candidates = [video for video in self.archive.values()
-                      if video["media_type"] == media_type]
-
         if entities:
+            if media_type == MediaType.GENERIC:
+                candidates = self.archive.values()
+            else:
+                candidates = [video for video in self.archive.values()
+                              if video["media_type"] == media_type]
+                
             title = list(entities.values())[0]
             return [video for video in candidates
                     if title.lower() in video["title"].lower()]
