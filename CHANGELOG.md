@@ -1,5 +1,17 @@
 # Changelog
 
+## [Unreleased](https://github.com/OpenVoiceOS/skill-ovos-local-media/tree/HEAD)
+
+[Full Changelog](https://github.com/OpenVoiceOS/skill-ovos-local-media/compare/V0.0.3a13...HEAD)
+
+**Fixed bugs:**
+
+- handle generic queries [\#5](https://github.com/OpenVoiceOS/skill-ovos-local-media/pull/5) ([JarbasAl](https://github.com/JarbasAl))
+
+## [V0.0.3a13](https://github.com/OpenVoiceOS/skill-ovos-local-media/tree/V0.0.3a13) (2024-05-24)
+
+[Full Changelog](https://github.com/OpenVoiceOS/skill-ovos-local-media/compare/V0.0.3a12...V0.0.3a13)
+
 ## [V0.0.3a12](https://github.com/OpenVoiceOS/skill-ovos-local-media/tree/V0.0.3a12) (2024-01-08)
 
 [Full Changelog](https://github.com/OpenVoiceOS/skill-ovos-local-media/compare/V0.0.3a11...V0.0.3a12)
