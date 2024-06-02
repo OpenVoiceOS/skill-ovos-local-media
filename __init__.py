@@ -5,14 +5,14 @@ from os.path import join, dirname
 from json_database import JsonStorageXDG
 from ovos_bus_client.apis.ocp import OCPInterface
 from ovos_bus_client.message import Message
-
 from ovos_utils import classproperty
 from ovos_utils.log import LOG
+from ovos_utils.ocp import MediaType, PlaybackType
+from ovos_utils.parse import fuzzy_match, MatchStrategy
 from ovos_utils.process_utils import RuntimeRequirements
 from ovos_workshop.decorators import intent_handler
 from ovos_workshop.decorators.ocp import ocp_search
 from ovos_workshop.skills.common_play import OVOSCommonPlaybackSkill
-from ovos_utils.ocp import MediaType, PlaybackType
 
 
 class LocalMediaSkill(OVOSCommonPlaybackSkill):
@@ -24,7 +24,7 @@ class LocalMediaSkill(OVOSCommonPlaybackSkill):
 
     def __init__(self, *args, **kwargs):
         self.archive = JsonStorageXDG("LocalMedia", subfolder="OCP")
-        super().__init__(skill_icon = join(dirname(__file__), "res", "icon", "ovos-file-browser.svg"),
+        super().__init__(skill_icon=join(dirname(__file__), "res", "icon", "ovos-file-browser.svg"),
                          supported_media=[MediaType.SHORT_FILM, MediaType.MUSIC,
                                           MediaType.RADIO, MediaType.RADIO_THEATRE,
                                           MediaType.MOVIE, MediaType.AUDIOBOOK,
@@ -154,8 +154,17 @@ class LocalMediaSkill(OVOSCommonPlaybackSkill):
                               if video["media_type"] == media_type]
                 
             title = list(entities.values())[0]
-            return [video for video in candidates
-                    if title.lower() in video["title"].lower()]
+            for video in candidates:
+                if title.lower() in video["title"].lower():
+                    video["match_confidence"] = base_score
+                    yield video
+
+        for entry in candidates:
+            score = fuzzy_match(phrase, entry["title"],
+                                strategy=MatchStrategy.DAMERAU_LEVENSHTEIN_SIMILARITY)
+            entry["match_confidence"] = score * 100
+            yield entry
+
         return []
 
     ## File Browser
