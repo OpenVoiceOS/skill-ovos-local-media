@@ -146,25 +146,24 @@ class LocalMediaSkill(OVOSCommonPlaybackSkill):
         entities = self.ocp_voc_match(phrase)
         base_score += 30 * len(entities)
 
+        if media_type == MediaType.GENERIC:
+            candidates = self.archive.values()
+        else:
+            candidates = [video for video in self.archive.values()
+                          if video["media_type"] == media_type]
+
         if entities:
-            if media_type == MediaType.GENERIC:
-                candidates = self.archive.values()
-            else:
-                candidates = [video for video in self.archive.values()
-                              if video["media_type"] == media_type]
-                
             title = list(entities.values())[0]
             for video in candidates:
                 if title.lower() in video["title"].lower():
                     video["match_confidence"] = base_score
                     yield video
-
-        for entry in candidates:
-            score = fuzzy_match(phrase, entry["title"],
-                                strategy=MatchStrategy.DAMERAU_LEVENSHTEIN_SIMILARITY)
-            entry["match_confidence"] = score * 100
-            yield entry
-
+        else:
+            for entry in candidates:
+                score = fuzzy_match(phrase, entry["title"],
+                                    strategy=MatchStrategy.DAMERAU_LEVENSHTEIN_SIMILARITY)
+                entry["match_confidence"] = score * 100
+                yield entry
         return []
 
     ## File Browser
