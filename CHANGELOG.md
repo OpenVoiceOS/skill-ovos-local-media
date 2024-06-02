@@ -1,5 +1,17 @@
 # Changelog
 
+## [Unreleased](https://github.com/OpenVoiceOS/skill-ovos-local-media/tree/HEAD)
+
+[Full Changelog](https://github.com/OpenVoiceOS/skill-ovos-local-media/compare/V0.0.3a15...HEAD)
+
+**Implemented enhancements:**
+
+- feat/fuzzy\_match [\#8](https://github.com/OpenVoiceOS/skill-ovos-local-media/pull/8) ([JarbasAl](https://github.com/JarbasAl))
+
+## [V0.0.3a15](https://github.com/OpenVoiceOS/skill-ovos-local-media/tree/V0.0.3a15) (2024-05-27)
+
+[Full Changelog](https://github.com/OpenVoiceOS/skill-ovos-local-media/compare/V0.0.3a14...V0.0.3a15)
+
 ## [V0.0.3a14](https://github.com/OpenVoiceOS/skill-ovos-local-media/tree/V0.0.3a14) (2024-05-27)
 
 [Full Changelog](https://github.com/OpenVoiceOS/skill-ovos-local-media/compare/V0.0.3a13...V0.0.3a14)
