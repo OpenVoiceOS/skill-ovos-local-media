@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-import QtQuick 2.15
-import QtQuick.Controls 2.15 as Controls
-import QtQuick.Layouts 1.15
+import QtQuick 2.12
+import QtQuick.Controls 2.12 as Controls
+import QtQuick.Layouts 1.12
 import Mycroft 1.0 as Mycroft
-import org.kde.kirigami 2.19 as Kirigami
-import Qt.labs.folderlistmodel 2.15
+import org.kde.kirigami 2.11 as Kirigami
+import Qt.labs.folderlistmodel 2.12
 import OVOSPlugin 1.0 as OVOSPlugin
 
 Item {
@@ -51,7 +51,7 @@ Item {
     }
 
     function shareFile(deviceID) {
-        triggerGuiEvent("file.kdeconnect.send", {"file": imageViewer.source, "deviceID": deviceID})
+        triggerGuiEvent("skill.file-browser.openvoiceos.send.file.kdeconnect", {"file": imageViewer.source, "deviceID": deviceID})
     }
 
     onDeviceChanged: {
@@ -202,7 +202,7 @@ Item {
 
                 onClicked: {
                     Mycroft.SoundEffects.playClickedSound(Qt.resolvedUrl("sounds/clicked.wav"))
-                    triggerGuiEvent("folder.play", {"path": folderModel.folder.toString().replace("file://", "")})
+                    triggerGuiEvent("skill.file-browser.openvoiceos.handle.folder.playlists", {"path": folderModel.folder.toString().replace("file://", "")})
                 }
             }
         }
@@ -268,7 +268,7 @@ Item {
                             imageViewer.source = fileUrl
                             imageViewer.open()
                         } else {
-                            triggerGuiEvent("file.play", {"fileURL": fileUrl})
+                            triggerGuiEvent("skill.file-browser.openvoiceos.handle.file", {"fileURL": fileUrl})
                         }
                     }
                 }

@@ -2,15 +2,15 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-import QtQuick 2.15
-import QtQuick.Layouts 1.15
-import Qt.labs.folderlistmodel 2.15
-import QtQuick.Controls 2.15 as Controls
+import QtQuick 2.12
+import QtQuick.Controls 2.12 as Controls
+import QtQuick.Layouts 1.12
 import Mycroft 1.0 as Mycroft
-import org.kde.kirigami 2.19 as Kirigami
+import org.kde.kirigami 2.11 as Kirigami
+import Qt.labs.folderlistmodel 2.12
 import OVOSPlugin 1.0 as OVOSPlugin
 import org.kde.kdeconnect 1.0 as KDEConnect
-import Qt5Compat.GraphicalEffects
+import QtGraphicalEffects 1.0
 
 Rectangle {
     id: rootKdeConnectDeviceSelector
