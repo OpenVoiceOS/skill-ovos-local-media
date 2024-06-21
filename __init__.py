@@ -6,10 +6,12 @@ from json_database import JsonStorageXDG
 from ovos_bus_client.apis.ocp import OCPInterface
 from ovos_bus_client.message import Message
 from ovos_utils import classproperty
+from typing import Iterable, Union
 from ovos_utils.log import LOG
-from ovos_utils.ocp import MediaType, PlaybackType
+from ovos_utils.ocp import MediaType, PlaybackType, Playlist, dict2entry, MediaEntry
 from ovos_utils.parse import fuzzy_match, MatchStrategy
 from ovos_utils.process_utils import RuntimeRequirements
+from ovos_utils.sound import get_sound_duration
 from ovos_workshop.decorators import intent_handler
 from ovos_workshop.decorators.ocp import ocp_search
 from ovos_workshop.skills.common_play import OVOSCommonPlaybackSkill
@@ -105,25 +107,25 @@ class LocalMediaSkill(OVOSCommonPlaybackSkill):
                     if not any(f.endswith(e) for e in ext):
                         continue
                     LOG.debug(f"found {t}: {f}")
-                    entry = self._file2entry(f"{base_path}/{f}", media_type)
-                    self.archive[f"{base_path}/{f}"] = entry
+                    entry = self._file2entry(f"{media_path}/{t}/{f}", media_type)
+                    self.archive[f"{base_path}/{f}"] = entry.as_dict
                     entries.append(entry)
 
                 if t == "Movies":
                     self.register_ocp_keyword(MediaType.MOVIE, "movie_name",
-                                              [norm_name(n["title"]) for n in entries])
+                                              [norm_name(n.title) for n in entries])
                 elif t == "Music":
                     self.register_ocp_keyword(MediaType.MUSIC, "song_name",
-                                              [norm_name(n["title"]) for n in entries])
+                                              [norm_name(n.title) for n in entries])
                 elif t == "Podcasts":
                     self.register_ocp_keyword(MediaType.PODCAST, "podcast_name",
-                                              [norm_name(n["title"]) for n in entries])
+                                              [norm_name(n.title) for n in entries])
                 elif t == "Anime":
                     self.register_ocp_keyword(MediaType.ANIME, "anime_name",
-                                              [norm_name(n["title"]) for n in entries])
+                                              [norm_name(n.title) for n in entries])
                 elif t == "Documentaries":
                     self.register_ocp_keyword(MediaType.DOCUMENTARY, "documentary_name",
-                                              [norm_name(n["title"]) for n in entries])
+                                              [norm_name(n.title) for n in entries])
                 # TODO all media types
 
         # scan folders
@@ -135,13 +137,13 @@ class LocalMediaSkill(OVOSCommonPlaybackSkill):
                     if os.path.isdir(f):
                         LOG.debug(f"found {t} playlist: {f}")
                         entry = self._folder2entry(f"{base_path}/{f}", media_type)
-                        self.archive[f"{base_path}/{f}"] = entry
+                        self.archive[f"{base_path}/{f}"] = entry.as_dict
                         entries.append(entry)
 
         self.archive.store()
 
     @ocp_search()
-    def search_db(self, phrase, media_type):
+    def search_db(self, phrase, media_type) -> Iterable[Union[MediaEntry, Playlist]]:
         base_score = 0
         entities = self.ocp_voc_match(phrase)
         base_score += 30 * len(entities)
@@ -152,19 +154,11 @@ class LocalMediaSkill(OVOSCommonPlaybackSkill):
             candidates = [video for video in self.archive.values()
                           if video["media_type"] == media_type]
 
-        if entities:
-            title = list(entities.values())[0]
-            for video in candidates:
-                if title.lower() in video["title"].lower():
-                    video["match_confidence"] = base_score
-                    yield video
-        else:
-            for entry in candidates:
-                score = fuzzy_match(phrase, entry["title"],
-                                    strategy=MatchStrategy.DAMERAU_LEVENSHTEIN_SIMILARITY)
-                entry["match_confidence"] = score * 100
-                yield entry
-        return []
+        for entry in candidates:
+            score = fuzzy_match(phrase, entry["title"],
+                                strategy=MatchStrategy.DAMERAU_LEVENSHTEIN_SIMILARITY)
+            entry["match_confidence"] = score * 100
+            yield dict2entry(entry)
 
     ## File Browser
     def setup_udev_monitor(self):
@@ -199,7 +193,7 @@ class LocalMediaSkill(OVOSCommonPlaybackSkill):
         """
         self.gui.show_page("Browser", override_idle=120)
 
-    def _file2entry(self, file_url, media_type=None):
+    def _file2entry(self, file_url, media_type=None) -> MediaEntry:
         file_url = os.path.expanduser(file_url)
         base, file_extension = file_url.split(".", 1)
         cover_images = [f"{os.path.dirname(__file__)}/ui/images/generic-audio-bg.jpg"]
@@ -214,21 +208,23 @@ class LocalMediaSkill(OVOSCommonPlaybackSkill):
             media_type = media_type or MediaType.VIDEO
             playback_type = PlaybackType.VIDEO
 
+        try:
+            length = get_sound_duration(file_url)
+        except:
+            length = 0
+
         if not file_url.startswith("file://"):
             file_url = "file://" + file_url
 
-        return {
-            "match_confidence": 100,
-            "media_type": media_type,
-            "length": 0,
-            "uri": file_url,
-            "playback": playback_type,
-            "image": cover_images[0],
-            "bg_image": cover_images[0],
-            "skill_icon": "",
-            "title": file_url.split("/")[-1],
-            "skill_id": self.skill_id
-        }
+        return MediaEntry(match_confidence=100,
+                          title=file_url.split("/")[-1],
+                          media_type=media_type,
+                          playback=playback_type,
+                          uri=file_url,
+                          image=cover_images[0],
+                          length=length,
+                          skill_id=self.skill_id,
+                          skill_icon=self.skill_icon)
 
     def handle_file(self, message):
         """
@@ -240,30 +236,26 @@ class LocalMediaSkill(OVOSCommonPlaybackSkill):
         self.ocp.play(playlist)
         self.gui.release()
 
-    def _folder2entry(self, folder_url, media_type=None):
-        playlist = []
+    def _folder2entry(self, folder_url, media_type=None) -> Playlist:
+        folder_title = folder_url.split("/")[-1].replace("_", " ").replace("-", " ").title()
+        playlist = Playlist(title=folder_title,
+                            match_confidence=100,
+                            skill_id=self.skill_id,
+                            skill_icon=self.skill_icon)
+
         for file in os.listdir(folder_url):
             file_url = f"{folder_url}/{file}"
             if os.path.isdir(file_url):
                 media = self._folder2entry(file_url, media_type)
             else:
                 media = self._file2entry(file_url, media_type)
-            playlist.append(media)
+            if not len(playlist):
+                playlist.playback = media.playback
+                playlist.media_type = media.media_type
+                playlist.image = media.image
 
-        if len(playlist) > 0:
-            media = playlist[0]
-            folder_title = folder_url.split("/")[-1].replace("_", " ").replace("-", " ").title()
-            return {
-                "match_confidence": 100,
-                "length": 0,
-                "playlist": playlist,
-                "playback": media["playback"],
-                "image": media["image"],
-                "bg_image": media["bg_image"],
-                "skill_icon": "",
-                "title": folder_title,
-                "skill_id": self.skill_id
-            }
+            playlist.append(media)
+        return playlist
 
     def handle_folder_playlist(self, message):
         """
@@ -302,9 +294,7 @@ if __name__ == "__main__":
     # 2024-01-07 23:14:37.872 - OVOS - __main__:scan_local_media:90 - DEBUG - found Movies: Robocop Prime Directives - The Baliscon Cut.mp4
     # 2024-01-07 23:14:37.872 - OVOS - __main__:scan_local_media:90 - DEBUG - found Movies: Robocop 3 - The Baliscon Cut.mp4
 
-    for r in s.search_db("play Robocop", MediaType.MOVIE):
+    for r in s.search_db("Conan the Barbarian", MediaType.MOVIE):
         print(r)
-        # {'match_confidence': 100, 'media_type': <MediaType.MOVIE: 10>, 'length': 0, 'uri': 'file:///home/miro/OCPMedia/Robocop - The Baliscon Cut.mp4', 'playback': <PlaybackType.VIDEO: 1>, 'image': '/home/miro/PycharmProjects/OCP_sprint/skills/skill-ovos-local-media/ui/images/generic-audio-bg.jpg', 'bg_image': '/home/miro/PycharmProjects/OCP_sprint/skills/skill-ovos-local-media/ui/images/generic-audio-bg.jpg', 'skill_icon': '', 'title': 'Robocop - The Baliscon Cut.mp4', 'skill_id': 't.fake'}
-        # {'match_confidence': 100, 'media_type': <MediaType.MOVIE: 10>, 'length': 0, 'uri': 'file:///home/miro/OCPMedia/Robocop 2 - The Baliscon Cut.mp4', 'playback': <PlaybackType.VIDEO: 1>, 'image': '/home/miro/PycharmProjects/OCP_sprint/skills/skill-ovos-local-media/ui/images/generic-audio-bg.jpg', 'bg_image': '/home/miro/PycharmProjects/OCP_sprint/skills/skill-ovos-local-media/ui/images/generic-audio-bg.jpg', 'skill_icon': '', 'title': 'Robocop 2 - The Baliscon Cut.mp4', 'skill_id': 't.fake'}
-        # {'match_confidence': 100, 'media_type': <MediaType.MOVIE: 10>, 'length': 0, 'uri': 'file:///home/miro/OCPMedia/Robocop Prime Directives - The Baliscon Cut.mp4', 'playback': <PlaybackType.VIDEO: 1>, 'image': '/home/miro/PycharmProjects/OCP_sprint/skills/skill-ovos-local-media/ui/images/generic-audio-bg.jpg', 'bg_image': '/home/miro/PycharmProjects/OCP_sprint/skills/skill-ovos-local-media/ui/images/generic-audio-bg.jpg', 'skill_icon': '', 'title': 'Robocop Prime Directives - The Baliscon Cut.mp4', 'skill_id': 't.fake'}
-        # {'match_confidence': 100, 'media_type': <MediaType.MOVIE: 10>, 'length': 0, 'uri': 'file:///home/miro/OCPMedia/Robocop 3 - The Baliscon Cut.mp4', 'playback': <PlaybackType.VIDEO: 1>, 'image': '/home/miro/PycharmProjects/OCP_sprint/skills/skill-ovos-local-media/ui/images/generic-audio-bg.jpg', 'bg_image': '/home/miro/PycharmProjects/OCP_sprint/skills/skill-ovos-local-media/ui/images/generic-audio-bg.jpg', 'skill_icon': '', 'title': 'Robocop 3 - The Baliscon Cut.mp4', 'skill_id': 't.fake'}
+        # MediaEntry(uri='file:///home/miro/OCPMedia/Movies/Conan the Barbarian- Recut.mp4', title='Conan the Barbarian- Recut.mp4', artist='', match_confidence=63.33333333333333, skill_id='t.fake', playback=1, status=1, media_type=10, length=0.211, image='/home/miro/PycharmProjects/OCPSkills/skill-ovos-local-media/ui/images/generic-audio-bg.jpg', skill_icon='/home/miro/PycharmProjects/OCPSkills/skill-ovos-local-media/res/icon/ovos-file-browser.svg', javascript='')
+        # MediaEntry(uri='file:///home/miro/OCPMedia/Movies/Kull.The.Conqueror.1997.1080p.BluRay.x264.AAC5.1-[YTS.MX].mp4', title='Kull.The.Conqueror.1997.1080p.BluRay.x264.AAC5.1-[YTS.MX].mp4', artist='', match_confidence=8.196721311475407, skill_id='t.fake', playback=1, status=1, media_type=10, length=0.135, image='/home/miro/PycharmProjects/OCPSkills/skill-ovos-local-media/ui/images/generic-audio-bg.jpg', skill_icon='/home/miro/PycharmProjects/OCPSkills/skill-ovos-local-media/res/icon/ovos-file-browser.svg', javascript='')
