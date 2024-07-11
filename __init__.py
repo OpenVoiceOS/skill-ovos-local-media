@@ -35,6 +35,7 @@ class LocalMediaSkill(OVOSCommonPlaybackSkill):
                                           MediaType.VIDEO_EPISODES, MediaType.SILENT_MOVIE,
                                           MediaType.BLACK_WHITE_MOVIE,
                                           MediaType.GENERIC],
+                         skill_voc_filename="local_media",
                          *args, **kwargs)
         self.scan_local_media()
 
