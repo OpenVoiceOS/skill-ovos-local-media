@@ -2,7 +2,15 @@
 
 ## [Unreleased](https://github.com/OpenVoiceOS/skill-ovos-local-media/tree/HEAD)
 
-[Full Changelog](https://github.com/OpenVoiceOS/skill-ovos-local-media/compare/V0.0.3a16...HEAD)
+[Full Changelog](https://github.com/OpenVoiceOS/skill-ovos-local-media/compare/V0.0.3a17...HEAD)
+
+**Merged pull requests:**
+
+- feat/skill\_aliases [\#10](https://github.com/OpenVoiceOS/skill-ovos-local-media/pull/10) ([JarbasAl](https://github.com/JarbasAl))
+
+## [V0.0.3a17](https://github.com/OpenVoiceOS/skill-ovos-local-media/tree/V0.0.3a17) (2024-06-21)
+
+[Full Changelog](https://github.com/OpenVoiceOS/skill-ovos-local-media/compare/V0.0.3a16...V0.0.3a17)
 
 **Merged pull requests:**
 
