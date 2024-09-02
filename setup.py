@@ -42,10 +42,6 @@ def find_resource_files():
     return package_data
 
 
-with open("README.md", "r") as f:
-    long_description = f.read()
-
-
 def get_version():
     """ Find the version of this skill"""
     version_file = os.path.join(os.path.dirname(__file__), 'version.py')
@@ -74,7 +70,7 @@ setup(
     name=PYPI_NAME,
     version=get_version(),
     description='OVOS file browser OCP skill plugin',
-    long_description=long_description,
+    long_description="play local media in OVOS",
     url=URL,
     author='Aix',
     author_email='aix.m@outlook.com',
