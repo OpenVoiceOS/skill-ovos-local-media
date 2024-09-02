@@ -71,6 +71,7 @@ setup(
     version=get_version(),
     description='OVOS file browser OCP skill plugin',
     long_description="play local media in OVOS",
+    long_description_content_type="text/markdown",
     url=URL,
     author='Aix',
     author_email='aix.m@outlook.com',
