@@ -8,7 +8,7 @@ from ovos_bus_client.message import Message
 from ovos_utils import classproperty
 from typing import Iterable, Union
 from ovos_utils.log import LOG
-from ovos_workshop.backwards_compat import MediaType, PlaybackType, Playlist, dict2entry, MediaEntry
+from ovos_utils.ocp import MediaType, PlaybackType, Playlist, dict2entry, MediaEntry
 from ovos_utils.parse import fuzzy_match, MatchStrategy
 from ovos_utils.process_utils import RuntimeRequirements
 from ovos_utils.sound import get_sound_duration
