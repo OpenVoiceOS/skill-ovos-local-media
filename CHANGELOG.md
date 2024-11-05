@@ -1,20 +1,16 @@
 # Changelog
 
-## [0.2.1a2](https://github.com/OpenVoiceOS/skill-ovos-local-media/tree/0.2.1a2) (2024-10-15)
+## [0.2.2a1](https://github.com/OpenVoiceOS/skill-ovos-local-media/tree/0.2.2a1) (2024-11-05)
 
-[Full Changelog](https://github.com/OpenVoiceOS/skill-ovos-local-media/compare/V0.2.1a1...0.2.1a2)
+[Full Changelog](https://github.com/OpenVoiceOS/skill-ovos-local-media/compare/V0.2.1...0.2.2a1)
 
 **Merged pull requests:**
 
-- fix:update\_requirements [\#11](https://github.com/OpenVoiceOS/skill-ovos-local-media/pull/11) ([JarbasAl](https://github.com/JarbasAl))
+- fix: allow latest ovos-gui changes [\#14](https://github.com/OpenVoiceOS/skill-ovos-local-media/pull/14) ([JarbasAl](https://github.com/JarbasAl))
 
-## [V0.2.1a1](https://github.com/OpenVoiceOS/skill-ovos-local-media/tree/V0.2.1a1) (2024-09-02)
+## [V0.2.1](https://github.com/OpenVoiceOS/skill-ovos-local-media/tree/V0.2.1) (2024-10-15)
 
-[Full Changelog](https://github.com/OpenVoiceOS/skill-ovos-local-media/compare/V0.2.0a1...V0.2.1a1)
-
-## [V0.2.0a1](https://github.com/OpenVoiceOS/skill-ovos-local-media/tree/V0.2.0a1) (2024-09-02)
-
-[Full Changelog](https://github.com/OpenVoiceOS/skill-ovos-local-media/compare/V0.2.0...V0.2.0a1)
+[Full Changelog](https://github.com/OpenVoiceOS/skill-ovos-local-media/compare/0.2.1...V0.2.1)
 
 
 
