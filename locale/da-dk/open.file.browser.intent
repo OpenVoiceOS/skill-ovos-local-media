@@ -1,0 +1,6 @@
+(åben | vis ) (| min) filbrowser (| drev)
+(åben | vis ) (| mit) usb (| drev)
+(åben | vis | start) filbrowser
+(åben | vis | start) filbrowserapp
+(åben | vis | start) usb browser
+(åben | vis | start) usb browser app
