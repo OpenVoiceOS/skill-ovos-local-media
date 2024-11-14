@@ -186,7 +186,7 @@ class LocalMediaSkill(OVOSCommonPlaybackSkill):
             if device.device_node is not None:
                 self.gui.show_notification("A USB device was removed", noticetype="transient", style="info")
 
-    @homescreen_app("ovos-file-browser.svg")
+    @homescreen_app(icon="ovos-file-browser.svg", name="File Browser")
     @intent_handler("open.file.browser.intent")
     def show_home(self, message):
         """
