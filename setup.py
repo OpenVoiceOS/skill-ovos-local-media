@@ -29,7 +29,7 @@ def get_requirements(requirements_filename: str):
 
 
 def find_resource_files():
-    resource_base_dirs = ("locale", "ui")
+    resource_base_dirs = ("locale", "gui")
     base_dir = path.dirname(__file__)
     package_data = ["*.json"]
     for res in resource_base_dirs:
@@ -79,10 +79,6 @@ setup(
     package_dir={SKILL_PKG: ""},
     package_data={SKILL_PKG: find_resource_files()},
     packages=[SKILL_PKG],
-    data_files = [
-        ('share/applications', ['res/desktop/skill-ovos-local-media.desktop']),
-        ('share/icons', ['res/icon/ovos-file-browser.svg'])
-    ],
     include_package_data=True,
     install_requires=get_requirements("requirements.txt"),
     extras_require={"notify": get_requirements("notify-requirements.txt")},

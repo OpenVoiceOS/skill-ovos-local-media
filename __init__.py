@@ -12,7 +12,7 @@ from ovos_utils.ocp import MediaType, PlaybackType, Playlist, dict2entry, MediaE
 from ovos_utils.parse import fuzzy_match, MatchStrategy
 from ovos_utils.process_utils import RuntimeRequirements
 from ovos_utils.sound import get_sound_duration
-from ovos_workshop.decorators import intent_handler
+from ovos_workshop.decorators import intent_handler, homescreen_app
 from ovos_workshop.decorators.ocp import ocp_search
 from ovos_workshop.skills.common_play import OVOSCommonPlaybackSkill
 
@@ -54,7 +54,6 @@ class LocalMediaSkill(OVOSCommonPlaybackSkill):
     def initialize(self):
         self.ocp = OCPInterface(self.bus)
         self.udev_thread = None
-        self.add_event(f'{self.skill_id}.home', self.show_home)
         self.add_event(f'{self.skill_id}.scan', self.scan_local_media)
         self.gui.register_handler('file.play', self.handle_file)
         self.gui.register_handler('folder.play', self.handle_folder_playlist)
@@ -187,6 +186,7 @@ class LocalMediaSkill(OVOSCommonPlaybackSkill):
             if device.device_node is not None:
                 self.gui.show_notification("A USB device was removed", noticetype="transient", style="info")
 
+    @homescreen_app(icon="ovos-file-browser.svg", name="File Browser")
     @intent_handler("open.file.browser.intent")
     def show_home(self, message):
         """

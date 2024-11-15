@@ -1,22 +1,10 @@
 {
-    "skill_id": "skill-ovos-local-media",
-    "requirements": {
-        "python": [
-            "ovos_workshop~=0.0, >=0.0.12a20",
-            "ovos-utils~=0.0, >=0.0.28",
-            "ovos-bus-client"
-        ],
-        "system": {},
-        "skill": []
-    },
-    "url": "https://github.com/OpenVoiceOS/skill-ovos-local-media",
-    "authorname": "OpenVoiceOS",
-    "skillname": "skill-ovos-local-media",
-    "branch": "dev",
+    "skill_id": "skill-ovos-local-media.openvoiceos",
+    "source": "https://github.com/OpenVoiceOS/skill-ovos-local-media",
+    "author": "OpenVoiceOS",
+    "name": "Local Media",
     "license": "apache-2.0",
-    "icon": "https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/solid/folder-open.svg",
-    "description": "File Browser For Open Voice OS",
-    "short_description": "",
+    "description": "Local Media File Browser For Open Voice OS",
     "examples": [
         "start file browser app",
         "show my usb drive",
@@ -45,13 +33,6 @@
         "open usb",
         "start usb browser app"
     ],
-    "credits": [
-        "OpenVoiceOS (@OpenVoiceOS)\nAditya Mehra (@AIIX)"
-    ],
-    "category": "Daily",
-    "categories": [
-        "Daily"
-    ],
     "tags": [
         "usb",
         "local",
@@ -60,7 +41,5 @@
         "filebrowser",
         "manager",
         "file"
-    ],
-    "foldername": "skill-ovos-local-media",
-    "desktopFile": true
+    ]
 }
