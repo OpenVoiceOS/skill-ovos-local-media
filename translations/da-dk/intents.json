@@ -1,0 +1,38 @@
+{
+  "open.file.browser.intent": [
+    "(åben | vis ) (| min) filbrowser (| drev)",
+    "(åben | vis | start) filbrowser",
+    "(åben | vis | start) filbrowserapp",
+    "(åben | vis ) (| mit) usb (| drev)",
+    "(åben | vis | start) usb browser",
+    "(åben | vis | start) usb browser app"
+  ],
+  "/intents/open.file.browser.intent": [
+    "vis min usb",
+    "start filbrowseren",
+    "åbne filbrowserdrev",
+    "vis usb-drev",
+    "start usb browser",
+    "vis mit filbrowserdrev",
+    "start usb browser app",
+    "vis usb browser app",
+    "åben filbrowser-app",
+    "åbne min usb",
+    "åbne mit usb-drev",
+    "vis min filbrowser",
+    "åbne filbrowseren",
+    "vis usb",
+    "vis filbrowser-app",
+    "åbne usb browser app",
+    "vis filbrowserdrev",
+    "vis filbrowser",
+    "vis mit usb-drev",
+    "åbne usb browser",
+    "vis usb browser",
+    "åben usb",
+    "åbne min filbrowser",
+    "åben usb-drev",
+    "åbne mit filbrowserdrev",
+    "start filbrowser-appen"
+  ]
+}

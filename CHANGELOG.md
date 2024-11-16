@@ -1,16 +1,12 @@
 # Changelog
 
-## [0.2.2a1](https://github.com/OpenVoiceOS/skill-ovos-local-media/tree/0.2.2a1) (2024-11-05)
+## [0.2.3a1](https://github.com/OpenVoiceOS/skill-ovos-local-media/tree/0.2.3a1) (2024-11-15)
 
-[Full Changelog](https://github.com/OpenVoiceOS/skill-ovos-local-media/compare/V0.2.1...0.2.2a1)
+[Full Changelog](https://github.com/OpenVoiceOS/skill-ovos-local-media/compare/0.2.2...0.2.3a1)
 
 **Merged pull requests:**
 
-- fix: allow latest ovos-gui changes [\#14](https://github.com/OpenVoiceOS/skill-ovos-local-media/pull/14) ([JarbasAl](https://github.com/JarbasAl))
-
-## [V0.2.1](https://github.com/OpenVoiceOS/skill-ovos-local-media/tree/V0.2.1) (2024-10-15)
-
-[Full Changelog](https://github.com/OpenVoiceOS/skill-ovos-local-media/compare/0.2.1...V0.2.1)
+- fix:modernize homescreen integration [\#16](https://github.com/OpenVoiceOS/skill-ovos-local-media/pull/16) ([JarbasAl](https://github.com/JarbasAl))
 
 
 

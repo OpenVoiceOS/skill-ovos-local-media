@@ -1,6 +1,26 @@
-(open | show ) (| my) file browser (| drive)
-(open | show | start) file browser
-(open | show | start) file browser app
-(open | show ) (| my) usb (| drive)
-(open | show | start) usb browser
-(open | show | start) usb browser app
+open file browser
+open file browser app
+open file browser drive
+open my file browser
+open my file browser drive
+open my usb
+open my usb drive
+open usb
+open usb browser
+open usb browser app
+open usb drive
+show file browser
+show file browser app
+show file browser drive
+show my file browser
+show my file browser drive
+show my usb
+show my usb drive
+show usb
+show usb browser
+show usb browser app
+show usb drive
+start file browser
+start file browser app
+start usb browser
+start usb browser app
