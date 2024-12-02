@@ -1,16 +1,16 @@
 # Changelog
 
-## [0.2.7a1](https://github.com/OpenVoiceOS/ovos-skill-local-media/tree/0.2.7a1) (2024-12-02)
+## [0.2.8a1](https://github.com/OpenVoiceOS/ovos-skill-local-media/tree/0.2.8a1) (2024-12-02)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-local-media/compare/V0.2.6...0.2.7a1)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-local-media/compare/V0.2.7...0.2.8a1)
 
 **Merged pull requests:**
 
-- import galician translations [\#27](https://github.com/OpenVoiceOS/ovos-skill-local-media/pull/27) ([JarbasAl](https://github.com/JarbasAl))
+- import basque translations [\#29](https://github.com/OpenVoiceOS/ovos-skill-local-media/pull/29) ([JarbasAl](https://github.com/JarbasAl))
 
-## [V0.2.6](https://github.com/OpenVoiceOS/ovos-skill-local-media/tree/V0.2.6) (2024-11-30)
+## [V0.2.7](https://github.com/OpenVoiceOS/ovos-skill-local-media/tree/V0.2.7) (2024-12-02)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-local-media/compare/0.2.6...V0.2.6)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-local-media/compare/0.2.7...V0.2.7)
 
 
 
