@@ -1,0 +1,38 @@
+{
+    "open.file.browser.intent": [
+        "(ireki | erakutsi) (| nire) (| drive) fitxategi-arakatzailea",
+        "(ireki | erakutsi ) (| nire) (| drive) usb-a",
+        "(ireki | erakutsi | hasi) fitxategi-arakatzailea",
+        "(ireki | erakutsi | hasi) app fitxategi-arakatzailea",
+        "(ireki | erakutsi | hasi) usb-arakatzailea",
+        "(ireki | erakutsi | hasi) app usb-arakatzailea"
+    ],
+    "/intents/open.file.browser.intent": [
+        "ireki fitxategi-arakatzailea",
+        "ireki app fitxategi-arakatzailea",
+        "ireki drive fitxategi-arakatzailea",
+        "ireki nire fitxategi-arakatzailea",
+        "ireki nire drive fitxategi-arakatzailea",
+        "ireki nire usb-a",
+        "ireki nire drive usb-a",
+        "ireki usb",
+        "ireki usb-arakatzailea",
+        "ireki app usb-arakatzailea",
+        "ireki drive usb-a",
+        "erakutsi fitxategi-arakatzailea",
+        "erakutsi app fitxategi-arakatzailea",
+        "erakutsi drive fitxategi-arakatzailea",
+        "erakutsi nire fitxategi-arakatzailea",
+        "erakutsi nire drive fitxategi-arakatzailea",
+        "erakutsi nire usb-a",
+        "erakutsi nire drive usb-a",
+        "erakutsi usb",
+        "erakutsi usb-arakatzailea",
+        "erakutsi app usb-arakatzailea",
+        "erakutsi drive usb-a",
+        "hasi fitxategi-arakatzailea",
+        "hasi app fitxategi-arakatzailea",
+        "hasi usb-arakatzailea",
+        "hasi app usb-arakatzailea"
+    ]
+}
