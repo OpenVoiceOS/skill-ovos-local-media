@@ -1,0 +1,38 @@
+{
+    "open.file.browser.intent": [
+        "(arrincar | mostrar) (a miña|o meu) (| unidade do) explorador de ficheiros",
+        "(arrincar | mostrar) (o meu|a miña) (| unidade) usb",
+        "(abrir | mostrar | arrincar) o explorador de ficheiros",
+        "(abrir | mostrar | arrincar) a aplicación do explorador de ficheiros",
+        "(abrir | mostrar | arrincar) o explorador de usb",
+        "(abrir | mostrar | arrincar) a aplicación do explorador usb"
+    ],
+    "/intents/open.file.browser.intent": [
+        "abrir o explorador de ficheiros",
+        "abrir a aplicación do explorador de ficheiros",
+        "abrir a unidade do explorador de ficheiros",
+        "abrir o meu explorador de ficheiros",
+        "abrir a miña unidade do explorador de ficheiros",
+        "abrir o meu usb",
+        "abrir a miña unidade usb",
+        "abrir usb",
+        "abrir o explorador de usb",
+        "abrir a aplicación do explorador de usb",
+        "abrir unidade usb",
+        "mostrar o explorador de ficheiros",
+        "mostrar aplicación do explorador de ficheiros",
+        "mostrar a unidade do explorador de ficheiros",
+        "mostrar o meu explorador de ficheiros",
+        "mostrar a miña unidade do explorador de ficheiros",
+        "mostrar o meu usb",
+        "mostrar a miña unidade usb",
+        "mostrar usb",
+        "mostrar o explorador de usb",
+        "mostrar aplicación do explorador de usb",
+        "mostrar unidade usb",
+        "arrincar o explorador de ficheiros",
+        "arrincar a aplicación do explorador de ficheiros",
+        "arrincar o explorador de usb",
+        "arrincar a aplicación do explorador de usb"
+    ]
+}
